@@ -1,5 +1,6 @@
 package com.apirest.truevision.repositories;
 
+import com.apirest.truevision.entities.Audio;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, String> {
     // captura
     @Query(value = "Select p.imagenes From Paciente p, Imagen i Where p.ci = :ci")
     List<Imagen> findImagenesByPaciente(@Param("ci") String ci);
+    
+    @Query(value = "Select p.audios From Paciente p Where p.ci = :ci")
+    List<Audio> findAudioByPaciente(@Param("ci") String ci);
 }

@@ -66,9 +66,14 @@ public class Paciente {
     @JoinTable(name = "paciente_imagenes", joinColumns = @JoinColumn(name = "paciente_ci"), inverseJoinColumns = @JoinColumn(name = "imagen_id"))
     @JsonProperty(value = "imagenes")
     private List<Imagen> imagenes;
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(name = "paciente_audio", joinColumns = @JoinColumn(name = "paciente_ci"), inverseJoinColumns = @JoinColumn(name = "audio_id"))
+    @JsonProperty(value = "audios")
+    private List<Audio> audios;
 
     public Paciente(String ci, String nombre, String apellidos, String sexo, int año_nacimiento, int edad,
-            String direccion, Date fecha_inicio_tratamiento, Cuenta cuenta, List<Imagen> imagenes) {
+            String direccion, Date fecha_inicio_tratamiento, Cuenta cuenta, List<Imagen> imagenes, List<Audio> audios) {
         this.ci = ci;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -79,6 +84,7 @@ public class Paciente {
         this.fecha_inicio_tratamiento = fecha_inicio_tratamiento;
         this.cuenta = cuenta;
         this.imagenes = imagenes;
+        this.audios=audios;
     }
 
     public Paciente() {
@@ -95,6 +101,7 @@ public class Paciente {
         this.fecha_inicio_tratamiento = fecha_inicio_tratamiento;
         this.cuenta = cuenta;
         this.imagenes = new ArrayList<Imagen>();
+        this.audios=new ArrayList<>();
     }
 
 }

@@ -17,9 +17,11 @@ import org.springframework.web.client.RestTemplate;
 import com.apirest.truevision.entities.Imagen;
 import com.apirest.truevision.object.Imagen_Emocion;
 import com.apirest.truevision.services.ImagenServiceImp;
+import io.swagger.annotations.Api;
 
 @RestController
-@CrossOrigin(value = "*")
+//@CrossOrigin(value = "*")
+@Api(tags = "Nombre de la API", description = "Descripción de la API")
 public class ImagenController {
 
     private ImagenServiceImp imagenServiceImp;

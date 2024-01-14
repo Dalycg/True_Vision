@@ -1,5 +1,6 @@
 package com.apirest.truevision.controllers;
 
+import com.apirest.truevision.entities.Audio;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,23 +17,36 @@ import org.springframework.web.bind.annotation.RestController;
 import com.apirest.truevision.entities.Especialista;
 import com.apirest.truevision.entities.Imagen;
 import com.apirest.truevision.entities.Paciente;
+import com.apirest.truevision.services.AudioServiceImp;
 import com.apirest.truevision.services.EspecialistaServiceImp;
 import com.apirest.truevision.services.ImagenServiceImp;
 import com.apirest.truevision.services.PacienteServiceImp;
+import io.swagger.annotations.Api;
+import java.net.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@CrossOrigin(value = "*")
+//@CrossOrigin(value = "*")
+@Api(tags = "Nombre de la API", description = "Descripción de la API")
 public class PacienteController {
 
     private PacienteServiceImp pacienteServiceImp;
     private EspecialistaServiceImp especialistaServiceImp;
     private ImagenServiceImp imagenServiceImp;
+    private AudioServiceImp audioServiceImp;
 
     public PacienteController(PacienteServiceImp pacienteServiceImp, EspecialistaServiceImp especialistaServiceImp,
-            ImagenServiceImp imagenServiceImp) {
+            ImagenServiceImp imagenServiceImp, AudioServiceImp audioServiceImp) {
         this.pacienteServiceImp = pacienteServiceImp;
         this.especialistaServiceImp = especialistaServiceImp;
         this.imagenServiceImp = imagenServiceImp;
+        this.audioServiceImp= audioServiceImp;
     }
 
     @DeleteMapping("/true_vision_api/paciente/{ci}")
@@ -107,7 +121,7 @@ public class PacienteController {
             System.out.println("Ruta: " + ruta_img);
 
             String uri = "http://localhost:8000/predict?imgPath=" + ruta[1] +
-                    "&classifier=SVM";
+                    "&classifier=KNN";
 
             Imagen img = new Imagen();
             img = imagenServiceImp.save(uri, ruta_img);
@@ -123,6 +137,53 @@ public class PacienteController {
 
             return pacienteServiceImp.update(p.getCi(), p);
 
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+    
+    @PostMapping("/true_vision_api/paciente/{ci}/audio")
+    public Paciente save_audio(@PathVariable String ci, @RequestPart("file") MultipartFile file) throws Exception {
+        try{
+            byte[] audioContent = file.getBytes();
+            
+            // Obtener el nombre del archivo
+            String fileName = file.getOriginalFilename();
+            
+           MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("file", file.getResource());
+
+            // Realizar la solicitud a la otra API (POST)
+            String apiUrl = "http://localhost:8000/predict/emotion";
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(apiUrl, body, String.class);
+
+            // Obtener la respuesta
+            String emocion = responseEntity.getBody();
+            
+            Audio a = new Audio(fileName,audioContent,emocion);
+            audioServiceImp.save(fileName, audioContent, emocion);
+            
+            //Paciente
+            Paciente p = pacienteServiceImp.findById(ci);
+            List<Audio> lista= new ArrayList<>();
+            
+            lista = p.getAudios();
+            
+            lista.add(a);
+            
+            p.setAudios(lista);
+            
+            return pacienteServiceImp.update(p.getCi(), p);
+        }catch(Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+    
+    @GetMapping("/true_vision_api/paciente/{ci}/lista/audios")
+    public List<Audio> getAudios(@PathVariable String ci) throws Exception {
+        try {
+            return pacienteServiceImp.findAudioByPaciente(ci);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }

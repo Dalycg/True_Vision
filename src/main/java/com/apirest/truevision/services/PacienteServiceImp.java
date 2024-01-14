@@ -1,5 +1,6 @@
 package com.apirest.truevision.services;
 
+import com.apirest.truevision.entities.Audio;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,6 +78,16 @@ public class PacienteServiceImp implements PacienteService {
         try {
             List<Imagen> listImagenes = pacienteRepository.findImagenesByPaciente(ci);
             return listImagenes;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+    
+    @Override
+    public List<Audio> findAudioByPaciente(String ci) throws Exception {
+        try {
+            List<Audio> listAudio = pacienteRepository.findAudioByPaciente(ci);
+            return listAudio;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }

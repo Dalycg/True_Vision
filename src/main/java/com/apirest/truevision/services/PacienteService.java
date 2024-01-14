@@ -1,5 +1,6 @@
 package com.apirest.truevision.services;
 
+import com.apirest.truevision.entities.Audio;
 import java.util.List;
 
 import com.apirest.truevision.entities.Imagen;
@@ -17,4 +18,6 @@ public interface PacienteService {
     public boolean delete(String ci) throws Exception;
 
     public List<Imagen> findImagenesByPaciente(String ci) throws Exception;
+    
+    public List<Audio> findAudioByPaciente(String ci) throws Exception;
 }

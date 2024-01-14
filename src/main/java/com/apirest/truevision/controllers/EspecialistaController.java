@@ -14,9 +14,11 @@ import com.apirest.truevision.entities.Especialista;
 import com.apirest.truevision.entities.Paciente;
 import com.apirest.truevision.repositories.EspecialistaReporitory;
 import com.apirest.truevision.services.EspecialistaServiceImp;
+import io.swagger.annotations.Api;
 
 @RestController
-@CrossOrigin(value = "*")
+//@CrossOrigin(value = "*")
+@Api(tags = "Nombre de la API", description = "Descripción de la API")
 public class EspecialistaController {
 
     private EspecialistaServiceImp especialistaServiceImp;
