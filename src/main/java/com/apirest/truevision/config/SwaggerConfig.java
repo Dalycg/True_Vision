@@ -33,8 +33,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Nombre de la API")
-                .description("Descripción de la API")
+                .title("True Vision API REST")
+                .description("API REST para el reconocimiento de emociones a través del rostro y la voz")
                 .version("1.0.0")
                 .build();
     }

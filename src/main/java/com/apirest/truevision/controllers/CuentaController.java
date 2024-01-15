@@ -18,7 +18,6 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 //@CrossOrigin(value = "*")
-@Api(tags = "Nombre de la API", description = "Descripción de la API")
 public class CuentaController {
 
     private CuentaServiceImp cuentaServiceImp;
@@ -27,7 +26,7 @@ public class CuentaController {
         this.cuentaServiceImp = cuentaServiceImp;
     }
     
-    @ApiOperation("Descripción del endpoint")
+    @ApiOperation("Eliminar una cuenta")
     @DeleteMapping("/true_vision_api/cuenta/{usuario}")
     public boolean delete(@PathVariable String usuario) throws Exception {
         try {
@@ -37,7 +36,7 @@ public class CuentaController {
         }
     }
     
-    @ApiOperation("Descripción del endpoint")
+    @ApiOperation("Obtener todas las cuentas")
     @GetMapping("/true_vision_api/cuenta")
     public List<Cuenta> getAll() throws Exception {
         try {
@@ -47,7 +46,7 @@ public class CuentaController {
         }
     }
 
-    @ApiOperation("Descripción del endpoint")
+    @ApiOperation("Obtener una cuenta")
     @GetMapping("/true_vision_api/cuenta/{usuario}")
     public Cuenta getOne(@PathVariable String usuario) throws Exception {
         try {
@@ -57,7 +56,7 @@ public class CuentaController {
         }
     }
 
-    @ApiOperation("Descripción del endpoint")
+    @ApiOperation("Guardar una cuenta")
     @PostMapping("/true_vision_api/cuenta")
     public Cuenta save(@RequestBody Cuenta entity) throws Exception {
         try {
@@ -67,7 +66,7 @@ public class CuentaController {
         }
     }
 
-    @ApiOperation("Descripción del endpoint")
+    @ApiOperation("Actualizar una cuenta")
     @PutMapping("/true_vision_api/cuenta/{usuario}")
     public Cuenta update(@PathVariable String usuario, @RequestBody Cuenta entity)
             throws Exception {
@@ -78,7 +77,7 @@ public class CuentaController {
         }
     }
 
-    @ApiOperation("Descripción del endpoint")
+    @ApiOperation("Obtener el rol de un usuario")
     @GetMapping("/true_vision_api/cuenta/{usuario}/rol")
     public String getRolByUsuario(@PathVariable String usuario) throws Exception {
         try {
@@ -88,7 +87,7 @@ public class CuentaController {
         }
     }
 
-    @ApiOperation("Descripción del endpoint")
+    @ApiOperation("Verificar que el usuario existe")
     @GetMapping("/true_vision_api/cuenta/exists/{usuario}")
     public boolean usuarioExists(@PathVariable String usuario) throws Exception {
         try {

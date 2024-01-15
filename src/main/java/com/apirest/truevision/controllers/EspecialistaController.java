@@ -18,7 +18,7 @@ import io.swagger.annotations.Api;
 
 @RestController
 //@CrossOrigin(value = "*")
-@Api(tags = "Nombre de la API", description = "Descripción de la API")
+
 public class EspecialistaController {
 
     private EspecialistaServiceImp especialistaServiceImp;

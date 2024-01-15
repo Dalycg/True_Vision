@@ -33,7 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 //@CrossOrigin(value = "*")
-@Api(tags = "Nombre de la API", description = "Descripción de la API")
+
 public class PacienteController {
 
     private PacienteServiceImp pacienteServiceImp;
@@ -154,7 +154,7 @@ public class PacienteController {
             body.add("file", file.getResource());
 
             // Realizar la solicitud a la otra API (POST)
-            String apiUrl = "http://localhost:8000/predict/emotion";
+            String apiUrl = "http://localhost:8001/predict/emotion";
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(apiUrl, body, String.class);
 

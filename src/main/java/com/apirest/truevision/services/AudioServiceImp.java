@@ -61,7 +61,18 @@ public class AudioServiceImp implements AudioService{
         }
     }
 
-    
+    @Override
+    @Transactional
+    public Audio update(String nombre, Audio entity) throws Exception {
+        try {
+            Optional<Audio> entityOptional = audioRepository.findById(nombre);
+            Audio entityUpdate = entityOptional.get();
+            entityUpdate = audioRepository.save(entity);
+            return entityUpdate;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
 
     @Override
     @Transactional

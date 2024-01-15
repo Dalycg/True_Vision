@@ -18,6 +18,8 @@ public interface AudioService {
     public Audio findById(String nombre) throws Exception;
 
     public Audio save(String nombre, byte[] contenido, String emocion) throws Exception;
+    
+     public Audio update(String nombre, Audio entity) throws Exception;
 
     public boolean delete(String nombre) throws Exception;
     
